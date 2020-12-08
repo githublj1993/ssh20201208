@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-size: 20px;
+        }
+        .box {
+            width: 600px;
+            height: 40px;
+            margin: 200px auto;
+            position: relative;
+        }
+        #txt {
+            width: 498px;
+            height: 38px;
+            border: 1px solid #ccc;
+            font-size: 20px;
+        }
+        #search {
+            width: 100px;
+            height: 40px;
+        }
+        #keywords {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: rgb(12, 255, 24);
+            list-style: none;
+            width: 500px;;
+        }
+        li {
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="top">
+        <input type="text" id="txt"/><input type="button" value="search" id="search"/>
+    </div>
+    <ul id="keywords"></ul>
+</div>
+<script src="common.js"></script>
+<script>
+
+      /* 需求分析：
+          1.键盘松开txt ： 根据搜索内容显示对应搜索列表ul
+          2.鼠标移入li元素：颜色变红
+          3.鼠标移出li元素：颜色变原先颜色
+          4.鼠标点击li元素： （1）搜索框显示点击的li元素文本  （2）情况内容列表ul
+           思路分析：事件三要素
+                 1 获取元素：
+                 2 注册事件：
+                 3 事件处理：
+       */
+    var keywords = ["林利群", "林利群为什么很黑", "林利群的经纪人是周林林吗", "林利群是谁", "广东人", "广东人爱吃", "广东人爱吃福建人","王宝强","王宝强的经纪人","王宝强的老婆","林丹出轨门","林丹夺冠","123","1234","2341","林丹的生平","JavaScript","Java","王思聪","王健林","社会王","隔壁老王"];
+
+    //1. 获取元素：
+    var txt = document.getElementById('txt');
+    var ul = document.getElementById('keywords');
+    //2.注册事件：
+
+      //2.1 键盘松开
+      txt.onkeyup = function (  ) {
+        //3.事件处理 : 根据搜索内容显示对应文本
+          //3.1 获取搜索文本
+          var search = this.value;
+          //3.2 每一次输入之前应该把之前的内容清空，以本次输入为准
+          ul.innerHTML = '';
+          //3.3 如果用户没有输入，则不搜索
+          if(search.length == 0){
+              return;
+          };
+          console.log ( search );
+          //3.3 根据搜索文本显示对应内容
+          searchTxt(search);
+      };
+
+
+      /**
+       *
+       * @param searchTxt 要搜索的文本
+       */
+      function searchTxt ( searchTxt ) {
+          //将数组中的内容显示到页面
+          for(var i = 0;i<keywords.length;i++){
+              var str = keywords[i];
+              //如果搜索文本searchTxt在str中则显示
+              if (str.indexOf(searchTxt) != -1){
+                  //1.创建空li元素
+                  var li = document.createElement('li');
+                  //2.设置文本
+                  li.innerText = str;
+                  //3.li元素添加到ul
+                  ul.appendChild(li);//这里写死了
+
+                  //每一个创建的li元素都有三个事件
+
+                  //鼠标移入：颜色变红
+                  li.onmouseover = function (  ) {
+
+                      //(1)先用一个自定义属性存储原先的颜色
+                      this.aaa = this.style.backgroundColor;
+                      //(2)修改颜色为红色
+                      this.style.backgroundColor = 'red';
+                  };
+
+                  //鼠标移出：颜色恢复原先的颜色
+                  li.onmouseout = function (  ) {
+                      this.style.backgroundColor = this.aaa;
+                  };
+
+                  //鼠标单击：
+                  li.onclick = function (  ) {
+                      //(1)搜索框文本变成单击的li元素文本
+                      txt.value = this.innerText;
+                      //(2)清空内容列表
+                      ul.innerHTML = '';//一点击就把ul清空掉
+                      // for(var i = 0;i<ul.children.length;i++){
+                      //       ul.removeChild(ul.children[i]);
+                      // }
+                  };
+              }
+          }
+
+      };
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<ul id="ul1">
+    <li>我是班长1</li>
+    <li>我是班长2</li>
+    <li>我是班长3</li>
+    <li>我是班长4</li>
+    <li>我是班长5</li>
+</ul>
+
+<script>
+
+    /*1.事件冒泡好处：如果一个元素所有的子元素都需要注册同名事件，
+    只需要给父元素注册即可
+
+       2.事件对象的其他属性
+            e.target : 事件触发源  真正触发这个事件的源头
+                e.currentTarget :  等价于this，几乎不用。使用this较多   （这个属性有浏览器兼容性，而this没有）
+            this: 谁调用这个方法this代表谁
+     */
+    //需求：给每一个li元素注册点击事件
+
+    //1.以前的做法
+
+    //1.1 获取li元素
+    //var liList = document.getElementsByTagName('li');
+    //1.2 遍历数组，添加点击事件
+    // for(var i = 0;i<liList.length;i++){
+    //     liList[i].onclick = function (  ) {
+    //         //this:谁调用这个方法，this代表谁
+    //         // 点击的这个li元素
+    //         alert(this.innerText);
+    //     };
+    // };
+
+    //2.使用事件冒泡：只需要给父元素注册即可
+    var ul1 = document.getElementById('ul1');
+
+    ul1.onclick = function (e  ) {
+        //this:谁调用这个方法，this代表谁
+        // 代表ul
+        // alert(this.innerText);
+        e = e || window.event;
+
+        //事件触发源：触发这个事件真正的源头
+        //谷歌火狐 ：  e.target     IE8：e.srcElement
+       e.target = e.target || e.srcElement
+        // console.log ( e.srcElement );
+        alert(e.target.innerText);
+
+        console.log ( e.currentTarget );//ul1
+        console.log ( e.currentTarget === this );//this
+    };
+
+
+
+</script>
+
+</body>
+</html>

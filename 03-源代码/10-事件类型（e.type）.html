@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div id="box" style="width: 100px;height: 100px;background-color:red;"></div>
+
+<script>
+    /*e.type 事件类型： 获取触发这个事件的类型
+        * 没有on （click mouseover）
+
+     */
+
+    var box = document.getElementById('box');
+
+    box.onclick = fn;
+
+    box.onmouseover = fn;
+
+    function fn ( e ) {
+        //单击和移入都会触发这个函数，到底是被那种事件类型触发呢？
+        console.log ( e.type );
+        console.log ( 1111111 );
+    };
+</script>
+</body>
+</html>

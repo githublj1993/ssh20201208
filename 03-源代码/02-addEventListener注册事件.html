@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<button onmousemove="var a = 10;var b = 20;alert(a+b)">按钮</button>
+<div id="box" style="width: 100px;height: 100px;background-color: red;"></div>
+<script>
+    var box = document.getElementById('box');
+    //1.点语法注册事件
+    //特点：不能注册多个同名事件，后者会覆盖前者
+    // box.onclick = function (  ) {
+    //     alert('低着头做事，夹着尾巴做人');
+    // };
+    //
+    // box.onclick = function (  ) {
+    //     alert('祝大家早日找到满意的工作');
+    // };
+
+    //2. addEventListener
+    //特点：可以注册多个同名事件,不会覆盖而是依次触发
+
+    /**注册事件
+     * @param type:事件类型字符串  不要on（click mouseover）
+     * @param listener:事件处理函数(回调函数)
+     * @param 布尔类型： 一般为false，默认值是false
+            * false:冒泡
+            * true：捕获
+     */
+    box.addEventListener('click',function (  ) {
+        alert(111111)
+    },false);
+    //
+    function test (  ) {
+        alert(22222);
+    };
+    //
+    // /*注意：这是如果是具名函数：应该是test，而不是test()
+    // test(): 含义是执行test（），并且将返回值作为第二个参数（undefined）
+    // test:  含义是变量取值语法，取出test变量中存储的函数作为第二个参数
+    //  */
+    // box.addEventListener('click',test,false);
+
+    //3. IE8浏览器不支持addEventListener
+
+    /**
+     * @param type  要on（onclick onmouseover）
+     * @param 事件处理函数
+     */
+    // box.attachEvent('onclick',function (  ) {
+    //     alert(111111);
+    // });
+    //
+    // box.attachEvent('onclick',test);
+
+
+    addEvent(box, 'click',function (  ) {
+        alert(1111);
+    });
+
+    addEvent(box, 'click',test);
+
+    /**
+     * 注册多个同名事件
+     * @param ele 元素
+     * @param type 事件类型  不要on
+     * @param fn 事件处理函数
+     */
+    function addEvent ( ele,type,fn ) {
+        //能力检测
+        if (ele.addEventListener){//谷歌火狐
+            ele.addEventListener(type, fn);
+        }else{//IE8
+            ele.attachEvent('on' + type,fn);
+        };
+    };
+
+
+</script>
+</body>
+</html>

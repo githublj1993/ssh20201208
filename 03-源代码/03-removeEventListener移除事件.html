@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div id="box" style="width: 100px;height: 100px;background-color: red;"></div>
+
+
+<script src="common.js"></script>
+<script>
+    var box = document.getElementById('box');
+
+    //1.点语法移除事件   :    事件源.事件类型 = null
+
+    // box.onclick = function (  ) {
+    //     alert(111111);
+    // };
+    //
+    // box.onclick = null;
+
+
+    //2. addEventListener移除事件
+    addEvent(box, 'click',function (  ) {
+        alert(1111);;
+    });
+
+
+    function test (  ) {
+        alert(222222)
+    };
+    addEvent(box, 'click',test);
+
+    /**
+     * @param type 不要on
+     * @param 事件处理函数
+     */
+    /*细节：要想移除事件，必须注册的是具名函数 */
+  //  box.removeEventListener('click',test)
+
+    //3.IE8不支持removeEventListener
+
+    //IE8: detachEvent
+    /**IE8移除事件
+     * @param type 要on
+     * @param 事件处理函数
+     */
+    // box.detachEvent('onclick',test);
+
+
+    //验证函数兼容性
+    removeEvent(box, 'click',test);
+    /**移除事件
+     * @param type: 事件类型 不要on
+     * @param 事件处理函数
+     */
+    function removeEvent ( ele,type,fn ) {
+        if (ele.removeEventListener){//谷歌火狐
+            ele.removeEventListener(type, fn);
+        }else{//IE8浏览器
+            ele.detachEvent('on' + type, fn);
+        };
+    };
+
+
+</script>
+</body>
+</html>
